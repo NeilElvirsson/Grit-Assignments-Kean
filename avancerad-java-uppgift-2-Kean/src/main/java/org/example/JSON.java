@@ -17,7 +17,7 @@ public class JSON {
     // Laddar data från json filen till JTable
     public static void loadJSON(JTable table, String filePath) throws IOException {
         // skapar en array
-        JsonArray jsonArray = readJsonArrayFromFile(filePath);
+        JsonArray jsonArray = readJsonArray(filePath);
 
         // kollar ifall den är tom
         if (jsonArray.isEmpty()) {
@@ -25,7 +25,7 @@ public class JSON {
         }
 
         // skapar tablemodel från arrayen
-        DefaultTableModel tableModel = createTableModelFromJsonArray(jsonArray);
+        DefaultTableModel tableModel = createTm(jsonArray);
 
         // Sätter model i table och gör den sorterbar
         table.setModel(tableModel);
@@ -33,14 +33,14 @@ public class JSON {
     }
 
     // läser arrayen från filen
-    private static JsonArray readJsonArrayFromFile(String filePath) throws IOException {
+    private static JsonArray readJsonArray(String filePath) throws IOException {
         try (FileReader fileReader = new FileReader(filePath)) {
             return Json.parse(fileReader).asArray();
         }
     }
 
     // skapar tablemodel från arrayen
-    private static DefaultTableModel createTableModelFromJsonArray(JsonArray jsonArray) {
+    private static DefaultTableModel createTm(JsonArray jsonArray) {
         List<String> columns = new ArrayList<>();
 
         // tar första raden för kolumnnamnen
