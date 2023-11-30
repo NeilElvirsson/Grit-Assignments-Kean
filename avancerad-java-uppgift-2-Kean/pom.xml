@@ -18,6 +18,13 @@
             <artifactId>opencsv</artifactId>
             <version>5.9</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.eclipsesource.minimal-json</groupId>
+            <artifactId>minimal-json</artifactId>
+            <version>0.9.5</version>
+        </dependency>
+
     </properties>
 
 </project>

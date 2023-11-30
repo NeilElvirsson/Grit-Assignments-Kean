@@ -9,7 +9,7 @@ import com.opencsv.exceptions.CsvException;
 public class Main {
 
     public static void GUI() {
-        JFrame frame = new JFrame("Data Display");
+        JFrame frame = new JFrame("Best file reader");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -21,13 +21,16 @@ public class Main {
         // panel för knapparna
         JPanel buttons = new JPanel();
         JButton csvButton = new JButton("Load csv file");
-        JButton jsonButton = new JButton("Load json file"); // funkar inte än
+        JButton jsonButton = new JButton("Load json file");
+        buttons.setBackground(Color.darkGray);
 
         // File chooser för att välja csv filer
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File("src")); // börjar i source mappen
+        fileChooser.setCurrentDirectory(new File("src")); // starts in the source folder
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV Files", "csv"));
+        fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV Files", "csv"));
+        fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("JSON Files", "json"));
+
 
         // Action listener för CSV knappen
         csvButton.addActionListener(e -> {
@@ -39,6 +42,22 @@ public class Main {
                     CSV.loadCSV(table, file.getAbsolutePath());
                 } catch (IOException | CsvException exception) {
                     // hanterar exceptions
+                    exception.printStackTrace();
+                }
+            }
+        });
+
+        jsonButton.addActionListener(e -> {
+            fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("JSON Files", "json"));
+            int fileChoice = fileChooser.showOpenDialog(frame);
+            if (fileChoice == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                try {
+                    // laddar och displayar json i table
+                    JSON.loadJSON(table, file.getAbsolutePath());
+                } catch (IOException exception) {
+                    // hanterar exceptions - var tvungen att skriva det på ett lite nnorlunda sätt än med json
+                    JOptionPane.showMessageDialog(frame, "Error loading JSON: " + exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     exception.printStackTrace();
                 }
             }
